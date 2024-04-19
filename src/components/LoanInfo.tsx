@@ -1,5 +1,6 @@
 import SelectInput from './SelectInput';
 import { Selection, MyFormProps } from '../utils/types';
+import CheckboxRadio from './CheckboxRadio';
 
 function LoanInfo({ control, errors, setValue, register }: MyFormProps) {
     
@@ -61,6 +62,16 @@ function LoanInfo({ control, errors, setValue, register }: MyFormProps) {
                 errors={errors}
                 setValue={setValue}
             />
+
+            <CheckboxRadio
+                label='Escrows?'
+                control={control}
+                name="escrow"
+                options={[
+                    { label: 'Yes', value: 'yes' },
+                    { label: 'No', value: 'no' },
+                ]}
+            />  
         </>
     )
 

@@ -3,14 +3,16 @@ import Select from 'react-select';
 
 import { Selection, Originators, SelectInputProps } from '../utils/types';
 
-const SelectInput = ({ label, options, control, name, errors, setValue }: SelectInputProps) => {
+const SelectInput = ({ label, options, control, name, errors, setValue, defaultValue }: SelectInputProps) => {
   return (
     <div className='flex flex-col w-80'>
       <p>{label}</p>
       <Controller
         control={control}
-        render={({ field: { onChange } }) => (
+        defaultValue={defaultValue}
+        render={({ field: { onChange, value } }) => (
           <Select
+            value={options.find(option => option.value === value)} // Find the option matching the value
             styles={{
               control: (base, state) => ({
                 ...base,

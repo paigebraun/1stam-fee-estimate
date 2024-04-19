@@ -34,6 +34,11 @@ const modifyPdfFields = (pdfForm: any, data: FormFields, currentDate: string) =>
     setTextAndAlignment(pdfForm.getTextField('Flood Certificate Text Field'), toCurrencyString(data.floodCertificate));
     setTextAndAlignment(pdfForm.getTextField('Credit Report Text Field'), toCurrencyString(data.creditReport));
     setTextAndAlignment(pdfForm.getTextField('Attorney Document Prep Text Field'), toCurrencyString(data.attorneyDocPrep));
+    setTextAndAlignment(pdfForm.getTextField('Settlement Fee Text Field'), toCurrencyString(data.settlementFee));
+    setTextAndAlignment(pdfForm.getTextField('Owners Title Policy Text Field'), toCurrencyString(data.ownersTitle));
+    setTextAndAlignment(pdfForm.getTextField('Endorsements Text Field'), toCurrencyString(data.endorsements));
+    setTextAndAlignment(pdfForm.getTextField('Recording Fee Text Field'), toCurrencyString(data.recordingFee));
+    setTextAndAlignment(pdfForm.getTextField('Home Inspection Text Field'), toCurrencyString(data.homeInspection));
 };
 
 export const modifyPdf = async (data: FormFields, currentDate: string) => {

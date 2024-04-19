@@ -16,6 +16,7 @@ export type FormFields = {
     loanPurpose: string;
     term: number;
     occupancy: string;
+    escrow: string;
     
     processingFee: number;
     underwritingFee: number;
@@ -24,6 +25,16 @@ export type FormFields = {
     floodCertificate: number;
     creditReport: number;
     attorneyDocPrep: number;
+
+    settlementFee: number;
+    ownersTitle: number;
+    endorsements: number;
+    
+    homeInspection: number;
+
+    recordingFee: number;
+
+    vaFunding: string;
 };
 
 export type Originators = {
@@ -48,7 +59,8 @@ export type CurrencyInputProps = {
 
 type FormFieldNames = 'loanOriginator' | 'borrowerName' | 'creditScore' | 'loanProgram' | 'loanPurpose' | 
 'term' | 'occupancy' | 'processingFee' | 'underwritingFee' | 'adminFee' | 'appraisal' | 'floodCertificate' | 
-'creditReport' | 'attorneyDocPrep';
+'creditReport' | 'attorneyDocPrep' | 'settlementFee' | 'ownersTitle' | 'endorsements' | 'homeInspection' |
+'recordingFee' | 'vaFunding' | 'escrow';
 
 export type SelectInputProps = {
   label: string;
@@ -57,4 +69,12 @@ export type SelectInputProps = {
   name: FormFieldNames;
   errors: MyFormProps['errors'];
   setValue: MyFormProps['setValue'];
+  defaultValue?: string;
 };
+
+export type CheckboxRadioProps = {
+    label: string;
+    control: MyFormProps['control'];
+    name: FormFieldNames;
+    options: Selection[];
+  }

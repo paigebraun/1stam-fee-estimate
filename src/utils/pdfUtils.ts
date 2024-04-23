@@ -6,6 +6,10 @@ const toCurrencyString = (amount: number): string => {
     return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 };
 
+const toPercentString = (percentage: number): string => {
+    return percentage.toString() + '%';
+};
+
 const loadPdfForm = async (url: string): Promise<PDFDocument> => {
     const formPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
     return PDFDocument.load(formPdfBytes);
@@ -26,7 +30,12 @@ const modifyPdfFields = (pdfForm: any, data: FormFields, currentDate: string) =>
     setTextAndAlignment(pdfForm.getTextField('Loan Program Text Field'), data.loanProgram);
     setTextAndAlignment(pdfForm.getTextField('Purpose of Loan Text Field'), data.loanPurpose);
     setTextAndAlignment(pdfForm.getTextField('Term Text Field'), data.term.toString());
+    setTextAndAlignment(pdfForm.getTextField('Interest Rate Text Field'), toPercentString(data.interestRate));
     setTextAndAlignment(pdfForm.getTextField('Occupancy Text Field'), data.occupancy);
+    setTextAndAlignment(pdfForm.getTextField('Sales Price Text Field'), toCurrencyString(data.salesPrice));
+    setTextAndAlignment(pdfForm.getTextField('Down Payment Percent Text Field'), toPercentString(data.downPaymentPercent));
+    setTextAndAlignment(pdfForm.getTextField('Down Payment Cash Text Field'), toCurrencyString(data.downPaymentCash));
+    setTextAndAlignment(pdfForm.getTextField('Loan Amount Text Field'), toCurrencyString(data.loanAmount));
     setTextAndAlignment(pdfForm.getTextField('Processing Fee Text Field'), toCurrencyString(data.processingFee));
     setTextAndAlignment(pdfForm.getTextField('Underwriting Fee Text Field'), toCurrencyString(data.underwritingFee));
     setTextAndAlignment(pdfForm.getTextField('Admin Fee Text Field'), toCurrencyString(data.adminFee));

@@ -1,31 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { CurrencyInputProps } from '../utils/types';
+import { PercentageInputProps } from '../utils/types';
 
-const CurrencyInput: React.FC<CurrencyInputProps> = ({ value, onChange, label }) => {
-    const [displayValue, setDisplayValue] = useState(value.toFixed(2));
+const PercentageInput: React.FC<PercentageInputProps> = ({ value, onChange, label }) => {
+    const [displayValue, setDisplayValue] = useState(value.toFixed(3));
 
     useEffect(() => {
-        setDisplayValue(value.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }));
+        setDisplayValue(value.toFixed(3));
     }, [value]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let inputValue = e.target.value;
-    
-        inputValue = inputValue.replace(/\D/g, '');
-    
-        const numericValue = parseFloat(inputValue || '0') / 100;
 
-        const displayValue = numericValue.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
-    
-        setDisplayValue(displayValue);
+        inputValue = inputValue.replace(/\D/g, '');
+
+        const numericValue = parseFloat(inputValue || '0') / 1000;
+
+        setDisplayValue(numericValue.toFixed(3));
         onChange(numericValue);
-    };    
+    };
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         const key = e.key;
@@ -39,10 +31,10 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({ value, onChange, label })
             <p>{label}</p>
             <div className='relative'>
                 <div className='absolute inset-y-0 left-0 flex items-center pl-2 text-gray-400 pointer-events-none text-xl'>
-                    <p>$</p>
+                    <p>%</p>
                 </div>
                 <input
-                    className='border border-2 focus:outline-none focus:ring-0 focus:border-light-blue rounded py-1.5 px-2 pl-6 w-80'
+                    className='border border-2 focus:outline-none focus:ring-0 focus:border-light-blue rounded py-1.5 px-2 pl-8 w-80'
                     type='text'
                     value={displayValue}
                     onChange={handleChange}
@@ -54,4 +46,4 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({ value, onChange, label })
     );
 };
 
-export default CurrencyInput;
+export default PercentageInput;

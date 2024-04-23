@@ -11,9 +11,10 @@ import Additional from './components/Additional';
 
 import { FormFields } from './utils/types';
 import Government from './components/Government';
+import LoanCalculator from './components/LoanCalculator';
 
 function App() {
-  const { control, handleSubmit, formState: { errors }, setValue, register } = useForm<FormFields>();
+  const { control, handleSubmit, formState: { errors }, setValue, register, watch } = useForm<FormFields>();
 
   //Get current date for prep date field
   const today = new Date();
@@ -38,13 +39,24 @@ function App() {
             errors={errors}
             setValue={setValue}
             register={register}
+            watch={watch}
           />
           <LoanInfo
             control={control}
             errors={errors}
             setValue={setValue}
             register={register}
+            watch={watch}
           />
+        </div>
+        <div className='grid gap-3 mb-6 md:grid-cols-2'>
+          <LoanCalculator
+              control={control}
+              errors={errors}
+              setValue={setValue}
+              register={register}
+              watch={watch}
+            />
         </div>
         <div className='grid gap-3 mb-6 md:grid-cols-2'>
           <h3 className='font-bold'>Mortgage Closing Costs</h3>
@@ -54,6 +66,7 @@ function App() {
             errors={errors}
             setValue={setValue}
             register={register}
+            watch={watch}
           />
         </div>
         <div className='grid gap-3 mb-6 md:grid-cols-2'>
@@ -64,6 +77,7 @@ function App() {
             errors={errors}
             setValue={setValue}
             register={register}
+            watch={watch}
           />
         </div>
         <div className='grid gap-3 mb-6 md:grid-cols-2'>
@@ -74,9 +88,10 @@ function App() {
             errors={errors}
             setValue={setValue}
             register={register}
+            watch={watch}
           />
         </div>
-        <div className='self-start mb-6'>
+        <div className='self-start mb-6 md:w-max w-min'>
           <h3 className='font-bold mb-3'>Government Recording & Transfer</h3>
           <div></div>
           <Government
@@ -84,6 +99,7 @@ function App() {
             errors={errors}
             setValue={setValue}
             register={register}
+            watch={watch}
           />
         </div>
         <button type='submit' className='text-white bg-light-blue px-5 py-2.5 rounded w-full'>

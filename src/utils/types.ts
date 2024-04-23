@@ -1,10 +1,11 @@
-import { Control, FieldErrors, UseFormSetValue, UseFormRegister } from 'react-hook-form';
+import { Control, FieldErrors, UseFormSetValue, UseFormRegister, UseFormWatch } from 'react-hook-form';
 
 export type MyFormProps = {
     control: Control<FormFields>;
     errors: FieldErrors<FormFields>;
     setValue: UseFormSetValue<FormFields>;
     register: UseFormRegister<FormFields>;
+    watch: UseFormWatch<FormFields>;
 };
 
 export type FormFields = {
@@ -15,6 +16,7 @@ export type FormFields = {
     loanProgram: string;
     loanPurpose: string;
     term: number;
+    interestRate: number;
     occupancy: string;
     escrow: string;
     
@@ -35,7 +37,14 @@ export type FormFields = {
     recordingFee: number;
 
     vaFunding: string;
+
+    salesPrice: number;
+    loanAmount: number;
+    downPaymentCash: number;
+    downPaymentPercent: number;
 };
+
+export type FieldName = keyof FormFields;
 
 export type Originators = {
     label: string;
@@ -57,10 +66,17 @@ export type CurrencyInputProps = {
     onChange: (value: number) => void;
 };
 
+export type PercentageInputProps = {
+    label: string;
+    value: number;
+    onChange: (value: number) => void;
+};
+
 type FormFieldNames = 'loanOriginator' | 'borrowerName' | 'creditScore' | 'loanProgram' | 'loanPurpose' | 
 'term' | 'occupancy' | 'processingFee' | 'underwritingFee' | 'adminFee' | 'appraisal' | 'floodCertificate' | 
 'creditReport' | 'attorneyDocPrep' | 'settlementFee' | 'ownersTitle' | 'endorsements' | 'homeInspection' |
-'recordingFee' | 'vaFunding' | 'escrow';
+'recordingFee' | 'vaFunding' | 'escrow' | 'salesPrice' | 'loanAmount' | 'downPaymentCash' | 'downPaymentPercent' |
+'interestRate';
 
 export type SelectInputProps = {
   label: string;

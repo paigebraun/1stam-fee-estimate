@@ -1,6 +1,8 @@
 import SelectInput from './SelectInput';
 import { Selection, MyFormProps } from '../utils/types';
 import CheckboxRadio from './CheckboxRadio';
+import PercentageInput from './PercentageInput';
+import { Controller } from 'react-hook-form';
 
 function LoanInfo({ control, errors, setValue, register }: MyFormProps) {
     
@@ -53,6 +55,19 @@ function LoanInfo({ control, errors, setValue, register }: MyFormProps) {
                 placeholder='Term'
                 />
             </div>
+            
+            <Controller
+                name='interestRate'
+                control={control}
+                defaultValue={0}
+                render={({ field: { value, onChange } }) => (
+                    <PercentageInput
+                        label="Interest Rate"
+                        value={value}
+                        onChange={(onChange)}
+                    />
+                )}
+            />
 
             <SelectInput
                 label='Occupancy'

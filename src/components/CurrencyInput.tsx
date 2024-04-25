@@ -1,36 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { CurrencyInputProps } from '../utils/types';
 
-const CurrencyInput: React.FC<CurrencyInputProps> = ({ value, onChange, label }) => {
-    const [displayValue, setDisplayValue] = useState(value.toFixed(2));
+const CurrencyInput: React.FC<CurrencyInputProps> = ({ label, value, onChange, readOnly }) => {
+    const [displayValue, setDisplayValue] = useState(formatValue(value));
+    const [prevValue, setPrevValue] = useState(displayValue);
 
     useEffect(() => {
-        setDisplayValue(value.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }));
+        setDisplayValue(formatValue(value));
     }, [value]);
 
+    function formatValue(val: number): string {
+        if (val === 0) return '0'; // Initialize as empty if value is zero
+        return val.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).slice(1);
+    }
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (readOnly) return;
         let inputValue = e.target.value;
-    
-        inputValue = inputValue.replace(/\D/g, '');
-    
-        const numericValue = parseFloat(inputValue || '0') / 100;
 
-        const displayValue = numericValue.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
-    
-        setDisplayValue(displayValue);
-        onChange(numericValue);
-    };    
+        // Remove non-numeric characters except for the last period
+        inputValue = inputValue.replace(/[^\d.]/g, '');
 
-    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        const key = e.key;
-        if (!/[\d.]/.test(key) && key !== 'Backspace' && key !== 'Tab') {
-            e.preventDefault();
+        // Remove leading zeros
+        inputValue = inputValue.replace(/^0+/,'');
+
+        setDisplayValue(inputValue);
+    };
+
+    const handleBlur = () => {
+        let formattedValue = parseFloat(displayValue.replace(/,/g, '')).toFixed(2);
+        setDisplayValue(formatValue(parseFloat(formattedValue)));
+        setPrevValue(displayValue);
+        if (onChange && formattedValue !== prevValue.replace(/,/g, '')) {
+            onChange(parseFloat(formattedValue));
         }
     };
 
@@ -42,12 +44,12 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({ value, onChange, label })
                     <p>$</p>
                 </div>
                 <input
-                    className='border border-2 focus:outline-none focus:ring-0 focus:border-light-blue rounded py-1.5 px-2 pl-6 w-80'
+                    className={`border border-2 focus:outline-none focus:ring-0 focus:border-light-blue rounded py-1.5 px-2 pl-6 w-80 ${readOnly ? 'bg-gray-200 border-gray-400 pointer-events-none focus:border-gray-400' : ''}`}
                     type='text'
                     value={displayValue}
                     onChange={handleChange}
-                    onKeyDown={handleKeyPress}
-                    tabIndex={0}
+                    onBlur={handleBlur}
+                    readOnly={readOnly}
                 />
             </div>
         </div>

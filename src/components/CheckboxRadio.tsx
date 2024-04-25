@@ -7,7 +7,7 @@ const CheckboxRadio: React.FC<CheckboxRadioProps> = ({ control, name, options, l
     } = useController({
       name,
       control,
-      defaultValue: '',
+      defaultValue: options[0].value,
     });
   
     const handleRadioChange = (optionValue: string) => {

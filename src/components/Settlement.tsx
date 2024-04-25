@@ -9,7 +9,7 @@ function Settlement({ control }: MyFormProps) {
         <Controller
             name='settlementFee'
             control={control}
-            defaultValue={250}
+            defaultValue={400}
             render={({ field: { value, onChange } }) => (
                 <CurrencyInput label='Settlement Fee' value={value} onChange={onChange} />
             )}
@@ -27,7 +27,7 @@ function Settlement({ control }: MyFormProps) {
         <Controller
             name='endorsements'
             control={control}
-            defaultValue={175}
+            defaultValue={225}
             render={({ field: { value, onChange } }) => (
                 <CurrencyInput label="Endorsements" value={value} onChange={onChange} />
             )}

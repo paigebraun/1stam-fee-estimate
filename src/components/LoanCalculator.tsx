@@ -9,7 +9,7 @@ function LoanCalculator({ control, setValue, watch }: MyFormProps) {
     const [initialInput, setInitialInput] = useState<'salesPrice' | 'loanAmount' | null>(null);
 
     const handleSalesPriceChange = (newValue: number) => {
-        const downPaymentPercent = watch('downPaymentPercent') || 10;
+        const downPaymentPercent = watch('downPaymentPercent') || 20;
         const downPaymentCash = (newValue * downPaymentPercent) / 100;
         const loanAmount = newValue - downPaymentCash;
         setValue('downPaymentCash', downPaymentCash);
@@ -59,7 +59,7 @@ function LoanCalculator({ control, setValue, watch }: MyFormProps) {
             <Controller
                 name='downPaymentPercent'
                 control={control}
-                defaultValue={10}
+                defaultValue={20}
                 render={({ field: { value, onChange } }) => (
                     <PercentageInput
                         label="Down Payment (%)"

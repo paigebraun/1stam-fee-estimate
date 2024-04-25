@@ -9,7 +9,7 @@ function ClosingCosts({ control }: MyFormProps) {
             <Controller
                 name='processingFee'
                 control={control}
-                defaultValue={400}
+                defaultValue={795}
                 render={({ field: { value, onChange } }) => (
                     <CurrencyInput label='Processing Fee' value={value} onChange={onChange} />
                 )}
@@ -54,7 +54,7 @@ function ClosingCosts({ control }: MyFormProps) {
             <Controller
                 name='creditReport'
                 control={control}
-                defaultValue={150}
+                defaultValue={175}
                 render={({ field: { value, onChange } }) => (
                     <CurrencyInput label='Credit Report' value={value} onChange={onChange} />
                 )}

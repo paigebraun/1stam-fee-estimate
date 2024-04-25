@@ -38,7 +38,7 @@ const modifyPdfFields = (pdfForm: any, data: FormFields, currentDate: string) =>
     setTextAndAlignment(pdfForm.getTextField('Loan Amount Text Field'), toCurrencyString(data.loanAmount));
     setTextAndAlignment(pdfForm.getTextField('Processing Fee Text Field'), toCurrencyString(data.processingFee));
     setTextAndAlignment(pdfForm.getTextField('Underwriting Fee Text Field'), toCurrencyString(data.underwritingFee));
-    setTextAndAlignment(pdfForm.getTextField('Admin Fee Text Field'), toCurrencyString(data.adminFee));
+    setTextAndAlignment(pdfForm.getTextField('Admin Fee Text Field'), toCurrencyString(data.voeFee));
     setTextAndAlignment(pdfForm.getTextField('Appraisal Text Field'), toCurrencyString(data.appraisal));
     setTextAndAlignment(pdfForm.getTextField('Flood Certificate Text Field'), toCurrencyString(data.floodCertificate));
     setTextAndAlignment(pdfForm.getTextField('Credit Report Text Field'), toCurrencyString(data.creditReport));

@@ -22,7 +22,7 @@ export type FormFields = {
     
     processingFee: number;
     underwritingFee: number;
-    adminFee: number;
+    voeFee: number;
     appraisal: number;
     floodCertificate: number;
     creditReport: number;
@@ -42,6 +42,20 @@ export type FormFields = {
     loanAmount: number;
     downPaymentCash: number;
     downPaymentPercent: number;
+
+    annualHOI: number;
+    taxRate: number;
+    annualTaxes: number;
+    annualFloodIns: number;
+    annualHOADues: number;
+
+    discountPointsPercent: number;
+    discountPointsCash: number;
+
+    sellerCredit: number;
+    earnestMoney: number;
+    customMIRate: number;
+    customPrepaidInterest: number;
 };
 
 export type FieldName = keyof FormFields;
@@ -63,7 +77,8 @@ export type Selection = {
 export type CurrencyInputProps = {
     label: string;
     value: number;
-    onChange: (value: number) => void;
+    readOnly?: boolean;
+    onChange?: (value: number) => void;
 };
 
 export type PercentageInputProps = {
@@ -73,10 +88,11 @@ export type PercentageInputProps = {
 };
 
 type FormFieldNames = 'loanOriginator' | 'borrowerName' | 'creditScore' | 'loanProgram' | 'loanPurpose' | 
-'term' | 'occupancy' | 'processingFee' | 'underwritingFee' | 'adminFee' | 'appraisal' | 'floodCertificate' | 
+'term' | 'occupancy' | 'processingFee' | 'underwritingFee' | 'voeFee' | 'appraisal' | 'floodCertificate' | 
 'creditReport' | 'attorneyDocPrep' | 'settlementFee' | 'ownersTitle' | 'endorsements' | 'homeInspection' |
 'recordingFee' | 'vaFunding' | 'escrow' | 'salesPrice' | 'loanAmount' | 'downPaymentCash' | 'downPaymentPercent' |
-'interestRate';
+'interestRate'| 'annualHOI' | 'taxRate' | 'annualTaxes' | 'annualFloodIns' | 'annualHOADues' | 'sellerCredit' |
+'earnestMoney' | 'customMIRate' | 'customPrepaidInterest';
 
 export type SelectInputProps = {
   label: string;
@@ -93,4 +109,4 @@ export type CheckboxRadioProps = {
     control: MyFormProps['control'];
     name: FormFieldNames;
     options: Selection[];
-  }
+};

@@ -20,12 +20,12 @@ function Government({ control, errors, setValue }: MyFormProps) {
         <Controller
             name='recordingFee'
             control={control}
-            defaultValue={150}
+            defaultValue={200}
             render={({ field: { value, onChange } }) => (
                 <CurrencyInput label='Recording Fee' value={value} onChange={onChange} />
             )}
         />
-        <p className='mt-4 mb-3'>If applicable, select one of the following from the dropdown for the VA Funding Fee:</p>
+        <p className='mt-4 mb-3 w-full'>If applicable, select one of the following from the dropdown for the VA Funding Fee:</p>
         <SelectInput
             label=''
             options={vaFundingOptions}

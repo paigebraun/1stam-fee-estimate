@@ -12,6 +12,9 @@ import Additional from './components/Additional';
 import { FormFields } from './utils/types';
 import Government from './components/Government';
 import LoanCalculator from './components/LoanCalculator';
+import Annuals from './components/Annuals';
+import DiscountCredits from './components/DiscountCredits';
+import Custom from './components/Custom';
 
 function App() {
   const { control, handleSubmit, formState: { errors }, setValue, register, watch } = useForm<FormFields>();
@@ -23,6 +26,10 @@ function App() {
   const date = today.getDate();
   const currentDate = `${month}/${date}/${year}`;
 
+   // Calculate sales price and down payment cash
+   const salesPrice = watch('salesPrice') || 0;
+   const downPaymentCash = watch('downPaymentCash') || 0;
+
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     await modifyPdf(data, currentDate);
   };
@@ -32,7 +39,7 @@ function App() {
       <a href='/'>
         <img src={Logo} className='w-60 px-4' alt='Logo'></img>
       </a>
-      <form className='flex flex-col items-center' onSubmit={handleSubmit(onSubmit)}>
+      <form className='flex flex-col max-w-80 md:max-w-2xl mb-20' onSubmit={handleSubmit(onSubmit)}>
         <div className='grid gap-3 mb-6 md:grid-cols-2'>
           <BasicInfo
             control={control}
@@ -57,6 +64,35 @@ function App() {
               register={register}
               watch={watch}
             />
+        </div>
+        <div className='grid gap-3 mb-6 md:grid-cols-2'>
+          <Annuals
+              control={control}
+              errors={errors}
+              setValue={setValue}
+              register={register}
+              watch={watch}
+            />
+        </div>
+        <div className='grid gap-3 mb-6 md:grid-cols-2'>
+          <DiscountCredits
+            control={control}
+            salesPrice={salesPrice}
+            downPaymentCash={downPaymentCash}
+            errors={errors}
+            setValue={setValue}
+            register={register}
+            watch={watch}
+          />
+        </div>
+        <div className='mb-6'>
+          <Custom
+            control={control}
+            errors={errors}
+            setValue={setValue}
+            register={register}
+            watch={watch}
+          />
         </div>
         <div className='grid gap-3 mb-6 md:grid-cols-2'>
           <h3 className='font-bold'>Mortgage Closing Costs</h3>
@@ -91,9 +127,8 @@ function App() {
             watch={watch}
           />
         </div>
-        <div className='self-start mb-6 md:w-max w-min'>
-          <h3 className='font-bold mb-3'>Government Recording & Transfer</h3>
-          <div></div>
+        <h3 className='font-bold mb-3'>Government Recording & Transfer</h3>
+        <div className='mb-6'>
           <Government
             control={control}
             errors={errors}

@@ -19,7 +19,7 @@ const SelectInput = ({ label, options, control, name, errors, setValue, defaultV
         defaultValue={defaultValue}
         render={({ field: { onChange, value } }) => (
           <Select
-            id={name}
+            inputId={name}
             value={options.find(option => option.value === value)} // Find the option matching the value
             styles={{
               control: (base, state) => ({

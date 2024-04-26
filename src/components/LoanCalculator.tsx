@@ -48,6 +48,7 @@ function LoanCalculator({ control, setValue, watch }: MyFormProps) {
                 render={({ field: { value, onChange } }) => (
                     <CurrencyInput
                         label="Sales Price"
+                        id={'salesPrice'}
                         value={value}
                         onChange={(newValue) => {
                             onChange(newValue);
@@ -63,6 +64,7 @@ function LoanCalculator({ control, setValue, watch }: MyFormProps) {
                 render={({ field: { value, onChange } }) => (
                     <PercentageInput
                         label="Down Payment (%)"
+                        id={'downPaymentPercent'}
                         value={value}
                         onChange={(newValue) => {
                             onChange(newValue);
@@ -84,6 +86,7 @@ function LoanCalculator({ control, setValue, watch }: MyFormProps) {
                 render={({ field: { value, onChange } }) => (
                     <CurrencyInput
                         label="Down Payment ($)"
+                        id={'downPaymentCash'}
                         value={value}
                         onChange={(newValue) => {
                             onChange(newValue);
@@ -99,6 +102,7 @@ function LoanCalculator({ control, setValue, watch }: MyFormProps) {
                 render={({ field: { value, onChange } }) => (
                     <CurrencyInput
                         label="Loan Amount"
+                        id={'loanAmount'}
                         value={value}
                         onChange={(newValue) => {
                             onChange(newValue);

@@ -19,6 +19,7 @@ function DiscountCredits({ control, setValue, salesPrice, downPaymentCash }: MyF
                 render={({ field: { value, onChange } }) => (
                     <PercentageInput
                         label="Discount Points (%)"
+                        id={'discountPointsPercent'}
                         value={value}
                         onChange={(newValue) => {
                             onChange(newValue);
@@ -32,7 +33,7 @@ function DiscountCredits({ control, setValue, salesPrice, downPaymentCash }: MyF
                 control={control}
                 defaultValue={0}
                 render={({ field: { value } }) => (
-                    <CurrencyInput label="Discount Points ($)" value={value} readOnly={true} />
+                    <CurrencyInput label="Discount Points ($)" id={'discountPointsCash'} value={value} readOnly={true} />
                 )}
             />
              <Controller
@@ -40,7 +41,7 @@ function DiscountCredits({ control, setValue, salesPrice, downPaymentCash }: MyF
                 control={control}
                 defaultValue={0}
                 render={({ field: { value, onChange } }) => (
-                    <CurrencyInput label="Seller Credit" value={value} onChange={onChange} />
+                    <CurrencyInput label="Seller Credit" id={'sellerCredit'} value={value} onChange={onChange} />
                 )}
             /> 
              <Controller
@@ -48,7 +49,7 @@ function DiscountCredits({ control, setValue, salesPrice, downPaymentCash }: MyF
                 control={control}
                 defaultValue={0}
                 render={({ field: { value, onChange } }) => (
-                    <CurrencyInput label="Earnest Money" value={value} onChange={onChange} />
+                    <CurrencyInput label="Earnest Money" id={'earnestMoney'} value={value} onChange={onChange} />
                 )}
             /> 
         </>

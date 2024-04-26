@@ -76,15 +76,10 @@ export type Selection = {
 
 export type CurrencyInputProps = {
     label: string;
+    id: string;
     value: number;
     readOnly?: boolean;
     onChange?: (value: number) => void;
-};
-
-export type PercentageInputProps = {
-    label: string;
-    value: number;
-    onChange: (value: number) => void;
 };
 
 type FormFieldNames = 'loanOriginator' | 'borrowerName' | 'creditScore' | 'loanProgram' | 'loanPurpose' | 
@@ -96,6 +91,7 @@ type FormFieldNames = 'loanOriginator' | 'borrowerName' | 'creditScore' | 'loanP
 
 export type SelectInputProps = {
   label: string;
+  id: string;
   options: (Selection | Originators)[];
   control: MyFormProps['control'];
   name: FormFieldNames;
@@ -105,6 +101,7 @@ export type SelectInputProps = {
 };
 
 export type CheckboxRadioProps = {
+    id: string;
     label: string;
     control: MyFormProps['control'];
     name: FormFieldNames;

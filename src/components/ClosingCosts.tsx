@@ -11,7 +11,7 @@ function ClosingCosts({ control }: MyFormProps) {
                 control={control}
                 defaultValue={795}
                 render={({ field: { value, onChange } }) => (
-                    <CurrencyInput label='Processing Fee' value={value} onChange={onChange} />
+                    <CurrencyInput label='Processing Fee' id={'processingFee'} value={value} onChange={onChange} />
                 )}
             />
 
@@ -20,16 +20,16 @@ function ClosingCosts({ control }: MyFormProps) {
                 control={control}
                 defaultValue={995}
                 render={({ field: { value, onChange } }) => (
-                    <CurrencyInput label='Underwriting Fee' value={value} onChange={onChange} />
+                    <CurrencyInput label='Underwriting Fee' id={'underwritingFee'} value={value} onChange={onChange} />
                 )}
             />
 
             <Controller
-                name='adminFee'
+                name='voeFee'
                 control={control}
-                defaultValue={495}
+                defaultValue={150}
                 render={({ field: { value, onChange } }) => (
-                    <CurrencyInput label='Admin Fee' value={value} onChange={onChange} />
+                    <CurrencyInput label='Verification of Employment Fee' id={'voeFee'} value={value} onChange={onChange} />
                 )}
             />
 
@@ -38,7 +38,7 @@ function ClosingCosts({ control }: MyFormProps) {
                 control={control}
                 defaultValue={650}
                 render={({ field: { value, onChange } }) => (
-                    <CurrencyInput label='Appraisal' value={value} onChange={onChange} />
+                    <CurrencyInput label='Appraisal' value={value} id={'appraisal'} onChange={onChange} />
                 )}
             />
 
@@ -47,7 +47,7 @@ function ClosingCosts({ control }: MyFormProps) {
                 control={control}
                 defaultValue={17.50}
                 render={({ field: { value, onChange } }) => (
-                    <CurrencyInput label='Flood Certificate' value={value} onChange={onChange} />
+                    <CurrencyInput label='Flood Certificate' id={'floodCertificate'} value={value} onChange={onChange} />
                 )}
             />    
 
@@ -56,7 +56,7 @@ function ClosingCosts({ control }: MyFormProps) {
                 control={control}
                 defaultValue={175}
                 render={({ field: { value, onChange } }) => (
-                    <CurrencyInput label='Credit Report' value={value} onChange={onChange} />
+                    <CurrencyInput label='Credit Report' id={'creditReport'} value={value} onChange={onChange} />
                 )}
             />
 
@@ -65,7 +65,7 @@ function ClosingCosts({ control }: MyFormProps) {
                 control={control}
                 defaultValue={300}
                 render={({ field: { value, onChange } }) => (
-                    <CurrencyInput label='Attorney Document Preparation' value={value} onChange={onChange} />
+                    <CurrencyInput label='Attorney Document Preparation' id={'attorneyDocPrep'} value={value} onChange={onChange} />
                 )}
             />       
         </>

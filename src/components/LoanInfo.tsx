@@ -29,6 +29,7 @@ function LoanInfo({ control, errors, setValue, register }: MyFormProps) {
         <>
             <SelectInput
                 label='Loan Program'
+                id={'loanProgram'}
                 options={loanProgramOptions}
                 control={control}
                 name='loanProgram'
@@ -38,6 +39,7 @@ function LoanInfo({ control, errors, setValue, register }: MyFormProps) {
 
             <SelectInput
                 label='Loan Purpose'
+                id={'loanPurpose'}
                 options={loanPurposeOptions}
                 control={control}
                 name='loanPurpose'
@@ -63,6 +65,7 @@ function LoanInfo({ control, errors, setValue, register }: MyFormProps) {
                 render={({ field: { value, onChange } }) => (
                     <PercentageInput
                         label="Interest Rate"
+                        id={'interestRate'}
                         value={value}
                         onChange={(onChange)}
                     />
@@ -71,6 +74,7 @@ function LoanInfo({ control, errors, setValue, register }: MyFormProps) {
 
             <SelectInput
                 label='Occupancy'
+                id={'occupancy'}
                 options={occupancyOptions}
                 control={control}
                 name='occupancy'
@@ -79,6 +83,7 @@ function LoanInfo({ control, errors, setValue, register }: MyFormProps) {
             />
 
             <CheckboxRadio
+                id={'Escrows?'}
                 label='Escrows?'
                 control={control}
                 name="escrow"

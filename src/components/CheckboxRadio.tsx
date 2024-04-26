@@ -16,11 +16,12 @@ const CheckboxRadio: React.FC<CheckboxRadioProps> = ({ control, name, options, l
 
     return (
         <div className='flex flex-col'>
-          <label>{label}</label>
+          <p>{label}</p>
           <div className='flex gap-3 mt-2'>
           {options.map((option) => (
-            <label key={option.value} className="flex items-center">
+            <label key={option.value} htmlFor={option.label} className="flex items-center">
               <input
+                id={option.label}
                 type="radio"
                 name={name as string}
                 value={option.value}

@@ -68,6 +68,7 @@ function App() {
         <div className='grid gap-3 mb-6 md:grid-cols-2'>
           <Annuals
               control={control}
+              salesPrice={salesPrice}
               errors={errors}
               setValue={setValue}
               register={register}

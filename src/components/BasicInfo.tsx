@@ -24,6 +24,7 @@ function BasicInfo({ control, errors, setValue, register }: MyFormProps) {
     <>
       <SelectInput
         label='Loan Originator'
+        id={'loanOriginator'}
         options={originatorOptions}
         control={control}
         name='loanOriginator'
@@ -44,6 +45,7 @@ function BasicInfo({ control, errors, setValue, register }: MyFormProps) {
 
       <SelectInput
         label='Credit Score'
+        id={'creditScore'}
         options={creditOptions}
         control={control}
         name='creditScore'

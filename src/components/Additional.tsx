@@ -10,7 +10,7 @@ function Additional({ control }: MyFormProps) {
             control={control}
             defaultValue={650}
             render={({ field: { value, onChange } }) => (
-                <CurrencyInput label="Home Inspection" value={value} onChange={onChange} />
+                <CurrencyInput label="Home Inspection" id={'homeInspection'} value={value} onChange={onChange} />
             )}
         /> 
     )}

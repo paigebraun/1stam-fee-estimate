@@ -13,7 +13,7 @@ function Custom({ control }: MyFormProps) {
                 control={control}
                 defaultValue={0}
                 render={({ field: { value, onChange } }) => (
-                    <PercentageInput label='' value={value} onChange={onChange} />
+                    <PercentageInput label='' id={'customMIRate'} value={value} onChange={onChange} />
                 )}
             />
             <p className='mt-4 mb-3 w-full'>Prepaid interest defaults to 5 days. If you want to use a custom number, enter the number of days here:</p>
@@ -22,7 +22,7 @@ function Custom({ control }: MyFormProps) {
                 control={control}
                 defaultValue={0}
                 render={({ field: { value, onChange } }) => (
-                    <PercentageInput label='' value={value} onChange={onChange} />
+                    <PercentageInput label='' id={'customPrepaidInterest'} value={value} onChange={onChange} />
                 )}
             />
         </>

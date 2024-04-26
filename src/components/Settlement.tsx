@@ -11,7 +11,7 @@ function Settlement({ control }: MyFormProps) {
             control={control}
             defaultValue={400}
             render={({ field: { value, onChange } }) => (
-                <CurrencyInput label='Settlement Fee' value={value} onChange={onChange} />
+                <CurrencyInput label='Settlement Fee' id={'settlementFee'} value={value} onChange={onChange} />
             )}
         /> 
 
@@ -20,7 +20,7 @@ function Settlement({ control }: MyFormProps) {
             control={control}
             defaultValue={100}
             render={({ field: { value, onChange } }) => (
-                <CurrencyInput label="Owners' Title Policy" value={value} onChange={onChange} />
+                <CurrencyInput label="Owners' Title Policy" id={'ownersTitle'} value={value} onChange={onChange} />
             )}
         /> 
 
@@ -29,7 +29,7 @@ function Settlement({ control }: MyFormProps) {
             control={control}
             defaultValue={225}
             render={({ field: { value, onChange } }) => (
-                <CurrencyInput label="Endorsements" value={value} onChange={onChange} />
+                <CurrencyInput label="Endorsements" id={'endorsements'} value={value} onChange={onChange} />
             )}
         /> 
         </>

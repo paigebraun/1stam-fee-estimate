@@ -8,6 +8,7 @@ const PercentageInput: React.FC<CurrencyInputProps> = ({ label, id, value, onCha
 
     useEffect(() => {
         if (!isEditing) {
+            setInternalValue(value);
             setDisplayValue(formatValue(value));
         }
     }, [value, isEditing]);

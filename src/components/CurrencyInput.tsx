@@ -8,6 +8,7 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({ label, id, value, onChang
 
     useEffect(() => {
         if (!isEditing) {
+            setInternalValue(value);
             setDisplayValue(formatValue(value));
         }
     }, [value, isEditing]);

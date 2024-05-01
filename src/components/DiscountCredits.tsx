@@ -4,10 +4,15 @@ import PercentageInput from './PercentageInput';
 import { MyFormProps } from '../utils/types';
 
 function DiscountCredits({ control, setValue, salesPrice, downPaymentCash }: MyFormProps & { salesPrice: number, downPaymentCash: number }) {
-    // Recalculate discount points cash when discount points percent changes
+    // Recalculate discount points cash when discount points percent changes and vice versa
     const handleDiscountPercentChange = (newValue: number) => {
         const newDiscountPointsCash = (salesPrice - downPaymentCash) * (newValue / 100);
         setValue('discountPointsCash', newDiscountPointsCash);
+    };
+
+    const handleDiscountCashChange = (newValue: number) => {
+        const newDiscountPointsPercent = newValue / (salesPrice - downPaymentCash) * 100;
+        setValue('discountPointsPercent', newDiscountPointsPercent);
     };
 
     return (
@@ -32,8 +37,16 @@ function DiscountCredits({ control, setValue, salesPrice, downPaymentCash }: MyF
                 name='discountPointsCash'
                 control={control}
                 defaultValue={0}
-                render={({ field: { value } }) => (
-                    <CurrencyInput label="Discount Points ($)" id={'discountPointsCash'} value={value} readOnly={true} />
+                render={({ field: { value, onChange } }) => (
+                    <CurrencyInput 
+                        label="Discount Points ($)" 
+                        id={'discountPointsCash'} 
+                        value={value} 
+                        onChange={(newValue) => {
+                            onChange(newValue);
+                            handleDiscountCashChange(newValue);
+                        }} 
+                    />
                 )}
             />
              <Controller

@@ -2,6 +2,8 @@ import { PDFDocument, TextAlignment } from 'pdf-lib';
 import feeEstimate from '../assets/1stAM Fee Estimate Template.pdf';
 import { FormFields } from './types';
 import {calculateAPR, calculatePresentValueWithoutAPR} from './rateFunctions';
+import MICalculator from './MICalculator';
+import calculateVAFundingFee from './VAFundingCalculator';
 
 // Calculte APR using Excel RATE function
 const calcPVandAPR = (data: FormFields): { apr: number; prepaidInterest: number; PIResult: number } => {
@@ -52,7 +54,46 @@ const setTextAndAlignment = (field: any, text: string, alignment: TextAlignment 
     field.setAlignment(alignment);
 };
 
-const modifyPdfFields = (pdfForm: any, data: FormFields, currentDate: string, apr: number, prepaidInterest: number, PIResult: number) => {
+const modifyPdfFields = (pdfForm: any, data: FormFields, currentDate: string, apr: number, prepaidInterest: number, PIResult: number, ltv: number, MIFactor: number, vaFundingFeePercentage: number) => {
+   
+    // If loan is VA and not exempt from funding fees, update loan amount to include VA funcing fees
+    if (data.loanProgram === 'VA' && data.vaFunding !== 'Exempt') {
+        const vaFundingFees = data.loanAmount * (vaFundingFeePercentage/100)
+        data.loanAmount = data.loanAmount + vaFundingFees;
+    }
+    
+    // Calculate 3 months
+    const homeownersInsurance3MO = (data.annualHOI / 12) * 3;
+    const realEstateTaxes3MO = (data.annualTaxes / 12) * 3;
+    const floodInsurance3MO = (data.annualFloodIns /12) * 3;
+    
+    const totalClosingCosts = data.discountPointsCash + data.processingFee + data.underwritingFee + data.voeFee + data.appraisal + data.floodCertificate + 
+        data.creditReport + data.attorneyDocPrep + data.settlementFee + data.ownersTitle + data.endorsements + data.recordingFee + data.homeInspection;
+
+    const totalPrepaidReserves = (data.annualHOI / 12) + prepaidInterest + (data.annualFloodIns / 12) + homeownersInsurance3MO + realEstateTaxes3MO + floodInsurance3MO;
+    const totalFundsNeeded = totalClosingCosts + totalPrepaidReserves + data.downPaymentCash;
+
+    const estFundsToClose = totalFundsNeeded + (data.sellerCredit * -1) + (data.earnestMoney * -1);
+
+    // Calculate monthly MI
+    const calculatedMonthlyMI = (data.loanAmount * (MIFactor/100)) / 12;
+    const customMontlyMI = (data.loanAmount * (data.customMIRate/100)) / 12;
+    let MItoFee : string;
+    let MItoCalc : number;
+    if (ltv > 80 && customMontlyMI > 0) {
+        MItoFee = toCurrencyString(customMontlyMI);
+        MItoCalc = customMontlyMI;
+    } else if (ltv > 80 && customMontlyMI === 0) {
+        MItoFee = toCurrencyString(calculatedMonthlyMI);
+        MItoCalc = calculatedMonthlyMI;
+    } else {
+        MItoFee = 'N/A';
+        MItoCalc = 0;
+    }
+
+    const totalEstMonthlyPmt = PIResult + (data.annualHOI / 12) + (data.annualTaxes / 12) + MItoCalc + (data.annualHOADues / 12) + (data.annualFloodIns / 12);
+
+    // Set all data in corresponding PDF text fields
     setTextAndAlignment(pdfForm.getTextField('Applicants Text Field'), data.borrowerName);
     setTextAndAlignment(pdfForm.getTextField('Loan Originator Text Field'), data.loanOriginator.name);
     setTextAndAlignment(pdfForm.getTextField('NMLS ID Text Field'), data.loanOriginator.NMLS);
@@ -82,13 +123,15 @@ const modifyPdfFields = (pdfForm: any, data: FormFields, currentDate: string, ap
     setTextAndAlignment(pdfForm.getTextField('Settlement Fee Text Field'), toCurrencyString(data.settlementFee));
     setTextAndAlignment(pdfForm.getTextField('Owners Title Policy Text Field'), toCurrencyString(data.ownersTitle));
     setTextAndAlignment(pdfForm.getTextField('Endorsements Text Field'), toCurrencyString(data.endorsements));
-    
+
     setTextAndAlignment(pdfForm.getTextField('Recording Fee Text Field'), toCurrencyString(data.recordingFee));
     setTextAndAlignment(pdfForm.getTextField('Home Inspection Text Field'), toCurrencyString(data.homeInspection));
     setTextAndAlignment(pdfForm.getTextField('Homeowners Insurance 1YR Text Field'), toCurrencyString(data.annualHOI));
     setTextAndAlignment(pdfForm.getTextField('Prepaid Interest Text Field'), toCurrencyString(prepaidInterest));
-    setTextAndAlignment(pdfForm.getTextField('Real Estate Taxes 3MO Text Field'), toCurrencyString((data.annualTaxes / 12)*3));
-    setTextAndAlignment(pdfForm.getTextField('Homeowners Insurance 3MO Text Field'), toCurrencyString((data.annualHOI / 12)*3));
+    setTextAndAlignment(pdfForm.getTextField('Flood Insurance 1YR Text Field'), toCurrencyString(data.annualFloodIns));
+    setTextAndAlignment(pdfForm.getTextField('Real Estate Taxes 3MO Text Field'), toCurrencyString(realEstateTaxes3MO));
+    setTextAndAlignment(pdfForm.getTextField('Homeowners Insurance 3MO Text Field'), toCurrencyString(homeownersInsurance3MO));
+    setTextAndAlignment(pdfForm.getTextField('Flood Insurance 3MO Text Field'), toCurrencyString(floodInsurance3MO));
 
     setTextAndAlignment(pdfForm.getTextField('Down Payment Text Field'), toCurrencyString(data.downPaymentCash));
     setTextAndAlignment(pdfForm.getTextField('Seller Paid Closing Costs Text Field'), toCurrencyString(data.sellerCredit * -1));
@@ -96,6 +139,16 @@ const modifyPdfFields = (pdfForm: any, data: FormFields, currentDate: string, ap
     setTextAndAlignment(pdfForm.getTextField('Principal Interest Text Field'), toCurrencyString(PIResult));
     setTextAndAlignment(pdfForm.getTextField('Homeowners Insurance Text Field'), toCurrencyString(data.annualHOI / 12));
     setTextAndAlignment(pdfForm.getTextField('Real Estate Taxes Text Field'), toCurrencyString(data.annualTaxes / 12));
+    setTextAndAlignment(pdfForm.getTextField('HOA Condo Association Text Field'), toCurrencyString(data.annualHOADues / 12));
+    setTextAndAlignment(pdfForm.getTextField('Flood Insurance Text Field'), toCurrencyString(data.annualFloodIns / 12));
+
+    setTextAndAlignment(pdfForm.getTextField('Total Closing Costs Text Field'), toCurrencyString(totalClosingCosts));
+    setTextAndAlignment(pdfForm.getTextField('Total Prepaids Text Field'), toCurrencyString(totalPrepaidReserves));
+    setTextAndAlignment(pdfForm.getTextField('Total Funds Needed Text Field'), toCurrencyString(totalFundsNeeded));
+    setTextAndAlignment(pdfForm.getTextField('Estimated Funded to Close Text Field'), toCurrencyString(estFundsToClose));
+
+    setTextAndAlignment(pdfForm.getTextField('Mortgage Insurance Text Field'), MItoFee);
+    setTextAndAlignment(pdfForm.getTextField('Total Est Monthly Text Field'), toCurrencyString(totalEstMonthlyPmt));
 };
 
 export const modifyPdf = async (data: FormFields, currentDate: string) => {
@@ -103,8 +156,14 @@ export const modifyPdf = async (data: FormFields, currentDate: string) => {
         const pdfDoc = await loadPdfForm(feeEstimate);
         const pdfForm = pdfDoc.getForm();
 
+        // Calculate APR, MI, LTV, and VAFF
         const { apr, prepaidInterest, PIResult } = calcPVandAPR(data);
-        modifyPdfFields(pdfForm, data, currentDate, apr, prepaidInterest, PIResult);
+        const ltv = (data.loanAmount / data.salesPrice) * 100;
+        const MIFactor = MICalculator(ltv, data.creditScore);
+
+        const vaFundingFeePercentage = calculateVAFundingFee(data.vaFunding, data.downPaymentPercent);
+        
+        modifyPdfFields(pdfForm, data, currentDate, apr, prepaidInterest, PIResult, ltv, MIFactor, vaFundingFeePercentage);
 
         pdfForm.flatten();
 

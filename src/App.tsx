@@ -1,4 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { motion } from "framer-motion"
 
 import Logo from './assets/1stAmLogo.png';
 
@@ -15,6 +16,8 @@ import LoanCalculator from './components/LoanCalculator';
 import Annuals from './components/Annuals';
 import DiscountCredits from './components/DiscountCredits';
 import Custom from './components/Custom';
+import GeneralErrorMessage from './components/GeneralErrorMessage';
+import ScrollToTopButton from './components/ScrollToTop';
 
 function App() {
   const { control, handleSubmit, formState: { errors }, setValue, register, watch } = useForm<FormFields>();
@@ -26,9 +29,9 @@ function App() {
   const date = today.getDate();
   const currentDate = `${month}/${date}/${year}`;
 
-   // Calculate sales price and down payment cash
-   const salesPrice = watch('salesPrice') || 0;
-   const downPaymentCash = watch('downPaymentCash') || 0;
+  // Calculate sales price and down payment cash
+  const salesPrice = watch('salesPrice') || 0;
+  const downPaymentCash = watch('downPaymentCash') || 0;
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     await modifyPdf(data, currentDate);
@@ -36,6 +39,7 @@ function App() {
 
   return (
     <div className='flex flex-col items-center'>
+      <ScrollToTopButton />
       <a href='/'>
         <img src={Logo} className='w-60 px-4' alt='Logo'></img>
       </a>
@@ -138,9 +142,10 @@ function App() {
             watch={watch}
           />
         </div>
-        <button type='submit' className='text-white bg-light-blue px-5 py-2.5 rounded w-full'>
+        <GeneralErrorMessage errors={errors} />
+        <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.9 }} type='submit' className='text-white bg-light-blue px-5 py-2.5 rounded w-full'>
           Create PDF
-        </button>
+        </motion.button>
       </form>
     </div>
   );

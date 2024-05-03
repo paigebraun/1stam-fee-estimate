@@ -1,12 +1,13 @@
-import { MyFormProps, Originators, Selection } from '../utils/types';
+import { MyFormProps, Selection } from '../utils/types';
 import SelectInput from './SelectInput';
+import { Controller } from 'react-hook-form';
 
 function BasicInfo({ control, errors, setValue, register }: MyFormProps) {
 
-  const originatorOptions: Originators[] = [
-    { label: 'Jennifer Wolf', value: { name: 'Jennifer Wolf', NMLS: '118652', phone: '(979) 694-1001' } },
-    { label: 'Gayle Lyons', value: { name: 'Gayle Lyons', NMLS: '227509', phone: '(979) 694-1002' } },
-    { label: 'Courtney Resendiz', value: { name: 'Courtney Resendiz', NMLS: '1417828', phone: '(956) 535-2947' } }
+  const originatorOptions: Selection[] = [
+    { label: 'Jennifer Wolf', value: 'Jennifer Wolf' },
+    { label: 'Gayle Lyons', value: 'Gayle Lyons' },
+    { label: 'Courtney Resendiz', value: 'Courtney Resendiz' }
   ];
 
   const creditOptions: Selection[] = [
@@ -33,13 +34,27 @@ function BasicInfo({ control, errors, setValue, register }: MyFormProps) {
       />
       
       <div className='flex flex-col w-80'>
-        <label htmlFor='borrowerName'>Borrower Name(s)</label>
-        <input
-          className='border border-2 focus:outline-none focus:ring-0 focus:border-light-blue rounded py-1.5 px-2'
-          {...register('borrowerName')}
-          type='text'
-          id='borrowerName'
-          placeholder='Borrower Name(s)'
+        <label htmlFor='borrowerName'>
+          Borrower Name(s)
+          {errors.borrowerName && (
+            <span className="text-red-500">
+              * <span className="text-red-500 italic font-normal">(required)</span>
+            </span>
+          )}
+        </label>
+        <Controller
+          control={control}
+          render={() => (
+            <input
+              className={`border border-2 focus:outline-none focus:ring-0 focus:border-light-blue rounded py-1.5 px-2`}
+              {...register('borrowerName')}
+              type='text'
+              id='borrowerName'
+              placeholder='Borrower Name(s)'
+            />
+          )}
+          name='borrowerName'
+          rules={{ required: true }}
         />
       </div>
 

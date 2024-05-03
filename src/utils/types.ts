@@ -9,7 +9,7 @@ export type MyFormProps = {
 };
 
 export type FormFields = {
-    loanOriginator: { name: string; NMLS: string; phone: string };
+    loanOriginator: string;
     borrowerName: string;
     creditScore: string;
     
@@ -60,14 +60,10 @@ export type FormFields = {
 
 export type FieldName = keyof FormFields;
 
-export type Originators = {
-    label: string;
-    value: {
-      name: string;
-      NMLS: string;
-      phone: string;
-    };
-};
+export type OriginatorDetails = {
+    NMLS: string;
+    phone: string;
+}
 
 export type Selection = {
     label: string;
@@ -92,7 +88,7 @@ type FormFieldNames = 'loanOriginator' | 'borrowerName' | 'creditScore' | 'loanP
 export type SelectInputProps = {
   label: string;
   id: string;
-  options: (Selection | Originators)[];
+  options: Selection[];
   control: MyFormProps['control'];
   name: FormFieldNames;
   errors: MyFormProps['errors'];
@@ -106,4 +102,14 @@ export type CheckboxRadioProps = {
     control: MyFormProps['control'];
     name: FormFieldNames;
     options: Selection[];
+};
+
+export type FundingFeeTable = {
+    [vaFundingFeeStatus: string]: {
+        [downPaymentCategory: number]: {
+            minDownPayment: number;
+            maxDownPayment: number;
+            vaFundingFeePercentage: number;
+        }[];
+    };
 };

@@ -1,7 +1,7 @@
 import { Controller } from 'react-hook-form';
 import Select from 'react-select';
 
-import { Selection, Originators, SelectInputProps } from '../utils/types';
+import { Selection, SelectInputProps } from '../utils/types';
 
 const SelectInput = ({ label, options, control, name, errors, setValue, defaultValue }: SelectInputProps) => {
   return (
@@ -35,10 +35,11 @@ const SelectInput = ({ label, options, control, name, errors, setValue, defaultV
             }}
             placeholder={<div className='text-gray-40'>Select...</div>}
             options={options}
-            onChange={(selectedOption: Selection | Originators | null) => {
+            onChange={(selectedOption: Selection | null) => {
               if (selectedOption) {
                 onChange(selectedOption.value);
                 setValue(name, selectedOption.value);
+                console.log(name, selectedOption.value);
               }
             }}
           />

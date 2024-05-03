@@ -48,13 +48,28 @@ function LoanInfo({ control, errors, setValue, register }: MyFormProps) {
             />
 
             <div className='flex flex-col w-80'>
-                <label htmlFor='borrowerName'>Term (Years)</label>
-                <input
-                className='border border-2 focus:outline-none focus:ring-0 focus:border-light-blue rounded py-1.5 px-2'
-                {...register('term')}
-                type='text'
-                id='term'
-                placeholder='Term'
+                <label htmlFor='term'>
+                Term (Years)
+                {errors.term && (
+                    <span className="text-red-500">
+                    * <span className="text-red-500 italic font-normal">(required)</span>
+                    </span>
+                )}
+                </label>
+                <Controller
+                control={control}
+                render={() => (
+                    <input
+                    className={`border border-2 focus:outline-none focus:ring-0 focus:border-light-blue rounded py-1.5 px-2`}
+                    {...register('term')}
+                    type='text'
+                    id='term'
+                    placeholder='Term'
+                    inputMode='decimal'
+                    />
+                )}
+                name='term'
+                rules={{ required: true }}
                 />
             </div>
             

@@ -53,7 +53,9 @@ const PercentageInput: React.FC<CurrencyInputProps> = ({ label, id, value, onCha
                     onChange={handleChange}
                     onBlur={handleBlur}
                     onClick={handleClick}
+                    onFocus={handleClick}
                     readOnly={readOnly}
+                    inputMode='decimal'
                 />
             </div>
         </div>

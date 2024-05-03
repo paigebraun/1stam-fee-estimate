@@ -55,7 +55,9 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({ label, id, value, onChang
                     onChange={handleChange}
                     onBlur={handleBlur}
                     onClick={handleClick}
+                    onFocus={handleClick}
                     readOnly={readOnly}
+                    inputMode='decimal'
                 />
             </div>
         </div>

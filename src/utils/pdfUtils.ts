@@ -1,6 +1,6 @@
 import { PDFDocument, TextAlignment } from 'pdf-lib';
 import feeEstimate from '../assets/1stAM Fee Estimate Template.pdf';
-import { FormFields } from './types';
+import { FormFields, OriginatorDetails } from './types';
 import {calculateAPR, calculatePresentValueWithoutAPR} from './rateFunctions';
 import MICalculator from './MICalculator';
 import calculateVAFundingFee from './VAFundingCalculator';
@@ -55,22 +55,55 @@ const setTextAndAlignment = (field: any, text: string, alignment: TextAlignment 
 };
 
 const modifyPdfFields = (pdfForm: any, data: FormFields, currentDate: string, apr: number, prepaidInterest: number, PIResult: number, ltv: number, MIFactor: number, vaFundingFeePercentage: number) => {
-   
+    // Get LO details
+    const originatorDetails: Record<string, OriginatorDetails> = {
+        'Jennifer Wolf': { NMLS: '118652', phone: '(979) 694-1001' },
+        'Gayle Lyons': { NMLS: '227509', phone: '(979) 694-1002' },
+        'Courtney Resendiz': { NMLS: '1417828', phone: '(956) 535-2947' }
+    };
+    
+    const getNMLS = (originatorName: string): string => {
+        return originatorDetails[originatorName]?.NMLS || '';
+    };
+
+    const getPhone = (originatorName: string): string => {
+        return originatorDetails[originatorName]?.phone || '';
+    };
+
     // If loan is VA and not exempt from funding fees, update loan amount to include VA funcing fees
     if (data.loanProgram === 'VA' && data.vaFunding !== 'Exempt') {
         const vaFundingFees = data.loanAmount * (vaFundingFeePercentage/100)
         data.loanAmount = data.loanAmount + vaFundingFees;
     }
     
-    // Calculate 3 months
-    const homeownersInsurance3MO = (data.annualHOI / 12) * 3;
-    const realEstateTaxes3MO = (data.annualTaxes / 12) * 3;
-    const floodInsurance3MO = (data.annualFloodIns /12) * 3;
+    // Calculate 3 months for Escrows
+    let homeownersInsurance3MO: number;
+    let realEstateTaxes3MO: number;
+    let floodInsurance3MO:  number;
+    let homeownersInsurance3MOtoFee: string;
+    let realEstateTaxes3MOtoFee: string;
+    let floodInsurance3MOtoFee:  string;
+    console.log(data.escrow);
+    if (data.escrow === 'yes') {
+        homeownersInsurance3MO = (data.annualHOI / 12) * 3;
+        homeownersInsurance3MOtoFee = toCurrencyString(homeownersInsurance3MO);
+        realEstateTaxes3MO = (data.annualTaxes / 12) * 3;
+        realEstateTaxes3MOtoFee = toCurrencyString(realEstateTaxes3MO);
+        floodInsurance3MO = (data.annualFloodIns /12) * 3;
+        floodInsurance3MOtoFee = toCurrencyString(floodInsurance3MO);
+    } else {
+        homeownersInsurance3MOtoFee = 'N/A';
+        homeownersInsurance3MO = 0;
+        realEstateTaxes3MOtoFee = 'N/A';
+        realEstateTaxes3MO = 0;
+        floodInsurance3MOtoFee = 'N/A';
+        floodInsurance3MO = 0;
+    }
     
     const totalClosingCosts = data.discountPointsCash + data.processingFee + data.underwritingFee + data.voeFee + data.appraisal + data.floodCertificate + 
         data.creditReport + data.attorneyDocPrep + data.settlementFee + data.ownersTitle + data.endorsements + data.recordingFee + data.homeInspection;
 
-    const totalPrepaidReserves = (data.annualHOI / 12) + prepaidInterest + (data.annualFloodIns / 12) + homeownersInsurance3MO + realEstateTaxes3MO + floodInsurance3MO;
+    const totalPrepaidReserves = data.annualHOI + prepaidInterest + data.annualFloodIns + homeownersInsurance3MO + realEstateTaxes3MO + floodInsurance3MO;
     const totalFundsNeeded = totalClosingCosts + totalPrepaidReserves + data.downPaymentCash;
 
     const estFundsToClose = totalFundsNeeded + (data.sellerCredit * -1) + (data.earnestMoney * -1);
@@ -95,9 +128,9 @@ const modifyPdfFields = (pdfForm: any, data: FormFields, currentDate: string, ap
 
     // Set all data in corresponding PDF text fields
     setTextAndAlignment(pdfForm.getTextField('Applicants Text Field'), data.borrowerName);
-    setTextAndAlignment(pdfForm.getTextField('Loan Originator Text Field'), data.loanOriginator.name);
-    setTextAndAlignment(pdfForm.getTextField('NMLS ID Text Field'), data.loanOriginator.NMLS);
-    setTextAndAlignment(pdfForm.getTextField('Phone Text Field'), data.loanOriginator.phone);
+    setTextAndAlignment(pdfForm.getTextField('Loan Originator Text Field'), data.loanOriginator);
+    setTextAndAlignment(pdfForm.getTextField('NMLS ID Text Field'), getNMLS(data.loanOriginator));
+    setTextAndAlignment(pdfForm.getTextField('Phone Text Field'), getPhone(data.loanOriginator));
     setTextAndAlignment(pdfForm.getTextField('Credit Score Text Field'), data.creditScore);
     setTextAndAlignment(pdfForm.getTextField('Preparation Date Text Field'), currentDate);
 
@@ -115,7 +148,7 @@ const modifyPdfFields = (pdfForm: any, data: FormFields, currentDate: string, ap
     setTextAndAlignment(pdfForm.getTextField('Discount Points Text Field'), toCurrencyString(data.discountPointsCash));
     setTextAndAlignment(pdfForm.getTextField('Processing Fee Text Field'), toCurrencyString(data.processingFee));
     setTextAndAlignment(pdfForm.getTextField('Underwriting Fee Text Field'), toCurrencyString(data.underwritingFee));
-    setTextAndAlignment(pdfForm.getTextField('Admin Fee Text Field'), toCurrencyString(data.voeFee));
+    setTextAndAlignment(pdfForm.getTextField('VOE Fee Text Field'), toCurrencyString(data.voeFee));
     setTextAndAlignment(pdfForm.getTextField('Appraisal Text Field'), toCurrencyString(data.appraisal));
     setTextAndAlignment(pdfForm.getTextField('Flood Certificate Text Field'), toCurrencyString(data.floodCertificate));
     setTextAndAlignment(pdfForm.getTextField('Credit Report Text Field'), toCurrencyString(data.creditReport));
@@ -129,9 +162,9 @@ const modifyPdfFields = (pdfForm: any, data: FormFields, currentDate: string, ap
     setTextAndAlignment(pdfForm.getTextField('Homeowners Insurance 1YR Text Field'), toCurrencyString(data.annualHOI));
     setTextAndAlignment(pdfForm.getTextField('Prepaid Interest Text Field'), toCurrencyString(prepaidInterest));
     setTextAndAlignment(pdfForm.getTextField('Flood Insurance 1YR Text Field'), toCurrencyString(data.annualFloodIns));
-    setTextAndAlignment(pdfForm.getTextField('Real Estate Taxes 3MO Text Field'), toCurrencyString(realEstateTaxes3MO));
-    setTextAndAlignment(pdfForm.getTextField('Homeowners Insurance 3MO Text Field'), toCurrencyString(homeownersInsurance3MO));
-    setTextAndAlignment(pdfForm.getTextField('Flood Insurance 3MO Text Field'), toCurrencyString(floodInsurance3MO));
+    setTextAndAlignment(pdfForm.getTextField('Real Estate Taxes 3MO Text Field'), realEstateTaxes3MOtoFee);
+    setTextAndAlignment(pdfForm.getTextField('Homeowners Insurance 3MO Text Field'), homeownersInsurance3MOtoFee);
+    setTextAndAlignment(pdfForm.getTextField('Flood Insurance 3MO Text Field'), floodInsurance3MOtoFee);
 
     setTextAndAlignment(pdfForm.getTextField('Down Payment Text Field'), toCurrencyString(data.downPaymentCash));
     setTextAndAlignment(pdfForm.getTextField('Seller Paid Closing Costs Text Field'), toCurrencyString(data.sellerCredit * -1));
@@ -160,16 +193,29 @@ export const modifyPdf = async (data: FormFields, currentDate: string) => {
         const { apr, prepaidInterest, PIResult } = calcPVandAPR(data);
         const ltv = (data.loanAmount / data.salesPrice) * 100;
         const MIFactor = MICalculator(ltv, data.creditScore);
-
         const vaFundingFeePercentage = calculateVAFundingFee(data.vaFunding, data.downPaymentPercent);
         
         modifyPdfFields(pdfForm, data, currentDate, apr, prepaidInterest, PIResult, ltv, MIFactor, vaFundingFeePercentage);
 
         pdfForm.flatten();
 
+        // Generate a Blob object from the modified PDF
         const pdfBytes = await pdfDoc.save();
-        const docUrl = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
-        window.open(docUrl, '_blank');
+        const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
+
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+
+        // Create a temporary anchor element
+        const a = document.createElement('a');
+        a.href = pdfUrl;
+        a.download = 'fee_estimate.pdf';
+        a.style.display = 'none';
+
+        document.body.appendChild(a);
+        a.click();
+
+        document.body.removeChild(a);
+        URL.revokeObjectURL(pdfUrl);
     } catch (error) {
         console.error('Error modifying PDF:', error);
     }

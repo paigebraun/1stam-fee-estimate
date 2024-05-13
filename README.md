@@ -1,30 +1,20 @@
-# React + TypeScript + Vite
+# Mortgage Fee Estimator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An application built for 1st Alliance Mortgage to allow loan officers to quickly and easily create and share fee estimates for potential borrowers. Loan officers at 1st Alliance Mortgage wanted something they could use on the go which is why I developed the site first with a mobile layout in mind. The app uses the information from the form to create a custom fee estimate pdf that can be downloaded or shared directly with clients.
 
-Currently, two official plugins are available:
+:arrow_right: [Live Preview](https://paigebraun.github.io/1stam-fee-estimate/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Screenshots
 
-## Expanding the ESLint configuration
+![App Screenshot](./public/FeeEstimate1.png)
+![App Screenshot](./public/FeeEstimate3.png)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Features
 
-- Configure the top-level `parserOptions` property like this:
+-   Custom input fields that work like Excel
+-   Responsive design for mobile use
+-   Creates custom fee estimate sheet ready to share with borrowers
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Tech Stack
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+React, TypeScript, Tailwind, Vite, PDF-LIB, React-Hook-Form, React-Select, Framer Motion

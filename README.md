@@ -18,3 +18,7 @@ An application built for 1st Alliance Mortgage to allow loan officers to quickly
 ## Tech Stack
 
 React, TypeScript, Tailwind, Vite, PDF-LIB, React-Hook-Form, React-Select, Framer Motion
+
+## License
+
+This project is licensed under the Custom Non-Commercial MIT License. See the [LICENSE](LICENSE.txt) file for details.

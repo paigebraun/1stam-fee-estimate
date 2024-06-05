@@ -34,6 +34,7 @@ function LoanInfo({ control, errors, setValue, register }: MyFormProps) {
                 control={control}
                 name='loanProgram'
                 errors={errors}
+                defaultValue={'Conventional - Fixed'}
                 setValue={setValue}
             />
 
@@ -44,6 +45,7 @@ function LoanInfo({ control, errors, setValue, register }: MyFormProps) {
                 control={control}
                 name='loanPurpose'
                 errors={errors}
+                defaultValue={'Purchase'}
                 setValue={setValue}
             />
 
@@ -58,6 +60,7 @@ function LoanInfo({ control, errors, setValue, register }: MyFormProps) {
                 </label>
                 <Controller
                 control={control}
+                defaultValue={30}
                 render={() => (
                     <input
                     className={`border border-2 focus:outline-none focus:ring-0 focus:border-light-blue rounded py-1.5 px-2`}
@@ -94,6 +97,7 @@ function LoanInfo({ control, errors, setValue, register }: MyFormProps) {
                 control={control}
                 name='occupancy'
                 errors={errors}
+                defaultValue={'Primary Residence'}
                 setValue={setValue}
             />
 

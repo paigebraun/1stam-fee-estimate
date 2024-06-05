@@ -70,10 +70,16 @@ const modifyPdfFields = (pdfForm: any, data: FormFields, currentDate: string, ap
         return originatorDetails[originatorName]?.phone || '';
     };
 
-    // If loan is VA and not exempt from funding fees, update loan amount to include VA funcing fees
+    // If loan is VA and not exempt from funding fees, update loan amount to include VA funding fees
     if (data.loanProgram === 'VA' && data.vaFunding !== 'Exempt') {
         const vaFundingFees = data.loanAmount * (vaFundingFeePercentage/100)
         data.loanAmount = data.loanAmount + vaFundingFees;
+    }
+
+    // If loan is FHA, update loan amount to include FHA funding fees
+    if (data.loanProgram === 'FHA') {
+        const fhaFundingFees = data.loanAmount * (.0175)
+        data.loanAmount = data.loanAmount + fhaFundingFees;
     }
     
     // Calculate 3 months for Escrows

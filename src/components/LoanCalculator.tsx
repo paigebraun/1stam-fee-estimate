@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Controller } from 'react-hook-form';
 import CurrencyInput from './CurrencyInput';
 import PercentageInput from './PercentageInput';
@@ -7,6 +7,18 @@ import { MyFormProps } from '../utils/types';
 function LoanCalculator({ control, setValue, watch }: MyFormProps) {
 
     const [initialInput, setInitialInput] = useState<'salesPrice' | 'loanAmount' | null>(null);
+    
+    const loanProgram = watch('loanProgram');
+
+    useEffect(() => {
+        if (loanProgram === 'FHA') {
+            setValue('downPaymentPercent', 3.5);
+        } else if (loanProgram === 'VA') {
+            setValue('downPaymentPercent', 0);
+        } else {
+            setValue('downPaymentPercent', 20);
+        }
+    }, [loanProgram, setValue]);
 
     const handleSalesPriceChange = (newValue: number) => {
         const downPaymentPercent = watch('downPaymentPercent') || 20;

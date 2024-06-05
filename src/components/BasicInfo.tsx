@@ -65,6 +65,7 @@ function BasicInfo({ control, errors, setValue, register }: MyFormProps) {
         control={control}
         name='creditScore'
         errors={errors}
+        defaultValue={'760+'}
         setValue={setValue}
       />
     </>

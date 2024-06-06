@@ -57,9 +57,20 @@ const setTextAndAlignment = (field: any, text: string, alignment: TextAlignment 
 const modifyPdfFields = (pdfForm: any, data: FormFields, currentDate: string, apr: number, prepaidInterest: number, PIResult: number, ltv: number, MIFactor: number, vaFundingFeePercentage: number) => {
     // Get LO details
     const originatorDetails: Record<string, OriginatorDetails> = {
+        'Jill Gallagher ': { NMLS: '4462', phone: '(713) 408-2663' },
         'Jennifer Wolf': { NMLS: '118652', phone: '(979) 694-1001' },
         'Gayle Lyons': { NMLS: '227509', phone: '(979) 694-1002' },
-        'Courtney Resendiz': { NMLS: '1417828', phone: '(956) 535-2947' }
+        'Courtney Resendiz': { NMLS: '1417828', phone: '(956) 535-2947' },
+        'Traci Camp': { NMLS: '1958292', phone: '(979) 574-5158' },
+        'Bill Cooney': { NMLS: '304433', phone: '(713) 446-9118' },
+        'Elaine Holman': { NMLS: '250913', phone: '(281) 620-6138' },
+        'Matt Ferrell' : { NMLS: '228399', phone: '(310) 237-3314' },
+        'Rashid Naqvi' : { NMLS: '313707', phone: '(832) 545-0667' },
+        'Tom Laurenzo' : { NMLS: '259743', phone: '(832) 566-6735' },
+        'Daron Mendoza' : { NMLS: '225619', phone: '(832) 202-4057' },
+        'Delia Warny' : { NMLS: '259948', phone: '(979) 709-8300' },
+        'Steve Jeffries' : { NMLS: '346771', phone: '(806) 441-7545' },
+        'Elizabeth Rubio' : { NMLS: '285976', phone: '(713) 301-0871' }
     };
     
     const getNMLS = (originatorName: string): string => {

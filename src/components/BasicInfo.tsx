@@ -5,9 +5,20 @@ import { Controller } from 'react-hook-form';
 function BasicInfo({ control, errors, setValue, register }: MyFormProps) {
 
   const originatorOptions: Selection[] = [
+    { label: 'Jill Gallagher', value: 'Jill Gallagher' },
     { label: 'Jennifer Wolf', value: 'Jennifer Wolf' },
     { label: 'Gayle Lyons', value: 'Gayle Lyons' },
-    { label: 'Courtney Resendiz', value: 'Courtney Resendiz' }
+    { label: 'Courtney Resendiz', value: 'Courtney Resendiz' },
+    { label: 'Traci Camp' , value: 'Traci Camp' },
+    { label: 'Bill Cooney', value: 'Bill Cooney' },
+    { label: 'Elaine Holman', value: 'Elaine Holman' },
+    { label: 'Matt Ferrell', value: 'Matt Ferrell' },
+    { label: 'Rashid Naqvi', value: 'Rashid Naqvi' },
+    { label: 'Tom Laurenzo', value: 'Tom Laurenzo' },
+    { label: 'Daron Mendoza', value: 'Daron Mendoza' },
+    { label: 'Delia Warny', value: 'Delia Warny' },
+    { label: 'Steve Jeffries', value: 'Steve Jeffries' },
+    { label: 'Elizabeth Rubio', value: 'Elizabeth Rubio' }
   ];
 
   const creditOptions: Selection[] = [

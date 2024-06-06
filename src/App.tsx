@@ -40,7 +40,7 @@ function App() {
   return (
     <div className='flex flex-col items-center'>
       <ScrollToTopButton />
-      <a href='/'>
+      <a href='/' onClick={(e) => { e.preventDefault(); window.location.href = '/'; }}>
         <img src={Logo} className='w-60 px-4' alt='Logo'></img>
       </a>
       <form className='flex flex-col max-w-80 md:max-w-2xl mb-20' onSubmit={handleSubmit(onSubmit)}>

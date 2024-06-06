@@ -40,8 +40,11 @@ function App() {
   return (
     <div className='flex flex-col items-center'>
       <ScrollToTopButton />
-      <a href='/' onClick={(e) => { e.preventDefault(); window.location.href = '/'; }}>
-        <img src={Logo} className='w-60 px-4' alt='Logo'></img>
+      <a href='/' onClick={(e) => { 
+        e.preventDefault(); 
+        window.location.href = '/1stam-fee-estimate/'; 
+      }}>
+        <img src={Logo} className='w-60 px-4' alt='Logo' />
       </a>
       <form className='flex flex-col max-w-80 md:max-w-2xl mb-20' onSubmit={handleSubmit(onSubmit)}>
         <div className='grid gap-3 mb-6 md:grid-cols-2'>

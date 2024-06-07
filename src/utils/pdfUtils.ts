@@ -57,7 +57,7 @@ const setTextAndAlignment = (field: any, text: string, alignment: TextAlignment 
 const modifyPdfFields = (pdfForm: any, data: FormFields, currentDate: string, apr: number, prepaidInterest: number, PIResult: number, ltv: number, MIFactor: number, vaFundingFeePercentage: number) => {
     // Get LO details
     const originatorDetails: Record<string, OriginatorDetails> = {
-        'Jill Gallagher ': { NMLS: '4462', phone: '(713) 408-2663' },
+        'Jill Gallagher': { NMLS: '4462', phone: '(713) 408-2663' },
         'Jennifer Wolf': { NMLS: '118652', phone: '(979) 694-1001' },
         'Gayle Lyons': { NMLS: '227509', phone: '(979) 694-1002' },
         'Courtney Resendiz': { NMLS: '1417828', phone: '(956) 535-2947' },
